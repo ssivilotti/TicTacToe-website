@@ -2,4 +2,13 @@
   width: 5rem;
   height: 5rem;
   margin-top: 0.2em;
+  padding-left: 0em;
+  padding-top: 0em;
+}
+
+.square img {
+  width: 4.5rem;
+  height: 4.5rem;
+  padding-left: auto;
+  padding-top: auto;
 }
