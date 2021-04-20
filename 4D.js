@@ -1,0 +1,1 @@
+board = document.getElementById("board");
