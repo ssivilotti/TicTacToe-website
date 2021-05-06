@@ -2,7 +2,7 @@ let playbutton = document.getElementById("play");
 playbutton.addEventListener("click", resetBoard);
 let board = document.getElementById("board");
 let turn = 1;
-let boxArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+let boardArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 //add event listener to each button
 for (let i = 0; i < 9; i++) {
   let box = document.getElementById(i);
@@ -16,8 +16,8 @@ function boxCheck(event) {
   console.log(boxNum);
   let image = document.createElement("img");
   image.className = "square";
-  if (boxArray[boxNum] == 0) {
-    boxArray[boxNum] = turn;
+  if (boardArray[boxNum] == 0) {
+    boardArray[boxNum] = turn;
     if (turn === 1) {
       image.src = "https://freetictactoe.com/images/mark-x.png";
       //box.className = "square x";
@@ -29,7 +29,7 @@ function boxCheck(event) {
     }
     box.append(image);
     console.log(box);
-    console.log(boxArray);
+    console.log(boardArray);
   }
   let win = checkWin();
   console.log("win: " + win);
@@ -41,33 +41,33 @@ function boxCheck(event) {
 function checkWin() {
   for (let i = 0; i < 3; i++) {
     if (
-      boxArray[i * 3] == boxArray[i * 3 + 1] &&
-      boxArray[i * 3 + 1] == boxArray[i * 3 + 2]
+      boardArray[i * 3] == boardArray[i * 3 + 1] &&
+      boardArray[i * 3 + 1] == boardArray[i * 3 + 2]
     ) {
       //check row win
-      if (boxArray[i * 3] != 0) {
-        return boxArray[i * 3];
+      if (boardArray[i * 3] != 0) {
+        return boardArray[i * 3];
       }
     } else if (
-      boxArray[i] == boxArray[i + 3] &&
-      boxArray[i + 3] == boxArray[i + 6]
+      boardArray[i] == boardArray[i + 3] &&
+      boardArray[i + 3] == boardArray[i + 6]
     ) {
       //column win
-      if (boxArray[i] != 0) {
-        return boxArray[i];
+      if (boardArray[i] != 0) {
+        return boardArray[i];
       }
     }
     //check diagonal wins
     if (
-      (boxArray[0] == boxArray[4] && boxArray[4] == boxArray[8]) ||
-      (boxArray[2] == boxArray[4] && boxArray[4] == boxArray[6])
+      (boardArray[0] == boardArray[4] && boardArray[4] == boardArray[8]) ||
+      (boardArray[2] == boardArray[4] && boardArray[4] == boardArray[6])
     ) {
-      if (boxArray[4] != 0) {
-        return boxArray[4];
+      if (boardArray[4] != 0) {
+        return boardArray[4];
       }
     }
   }
-  if (boxArray.includes(0)) {
+  if (boardArray.includes(0)) {
     return 0;
   }
   return -1;
@@ -94,6 +94,6 @@ function resetBoard() {
   }
   //resets play conditions
   turn = 1;
-  boxArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  boardArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   document.getElementById("win").innerHTML = "";
 }
