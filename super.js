@@ -1,5 +1,5 @@
-let ximg = "https://freetictactoe.com/images/mark-x.png";
-let oimg = "https://www.hospitalevangelico.com/images/diabetes_imagen.png";
+let ximg = "X.png";
+let oimg = "O.png";
 let boardElement = document.getElementById("board");
 document.getElementById("play").addEventListener("click", createBoard);
 let bigBoard;
@@ -76,13 +76,14 @@ function boxCheck(event) {
 
     let win = checkWin(board[boxlocation.substring(0, 1)]);
     console.log("win: " + win);
-    let bigBox = document.getElementById(boxlocation.substring(0, 1));
-    console.log(bigBox);
     if (win != 0) {
-      console.log("someone won!2");
+      //main board that was just won
+      let bigBox = document.getElementById(boxlocation.substring(0, 1));
+      bigBox.innerHTML = "";
+      //set array of large boards
       bigBoard[boxlocation.substring(0, 1)] = win;
       console.log(bigBoard);
-      bigBox.innerHTML = "";
+      //set img for win
       let largeImg = document.createElement("img");
       if (win == 1) {
         largeImg.src = ximg;
@@ -92,6 +93,7 @@ function boxCheck(event) {
         largeImg.src = "T.png";
       }
       bigBox.append(largeImg);
+      //check if whole game was won
       let finalwin = checkWin(bigBoard);
       if (finalwin != 0) {
         announceWin(finalwin);
@@ -353,90 +355,6 @@ function checkWin(boardArray) {
 
 // //prepare for new game
 // function reset() {
-//   board = [
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//     0,
-//   ];
 //   playerNum = initialPlayer;
 //   switchPlayers();
 //   initialPlayer = playerNum;
