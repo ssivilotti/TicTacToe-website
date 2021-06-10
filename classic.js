@@ -1,3 +1,5 @@
+let ximg = "X.png";
+let oimg = "O.png";
 let playbutton = document.getElementById("play");
 playbutton.addEventListener("click", resetBoard);
 let board = document.getElementById("board");
@@ -11,30 +13,32 @@ for (let i = 0; i < 9; i++) {
 
 //event listener for button
 function boxCheck(event) {
-  let box = event.srcElement;
-  let boxNum = box.id;
-  console.log(boxNum);
-  let image = document.createElement("img");
-  image.className = "square";
-  if (boardArray[boxNum] == 0) {
-    boardArray[boxNum] = turn;
-    if (turn === 1) {
-      image.src = "https://freetictactoe.com/images/mark-x.png";
-      //box.className = "square x";
-      turn = 2;
-    } else {
-      image.src =
-        "https://www.hospitalevangelico.com/images/diabetes_imagen.png";
-      turn = 1;
+  if (boardArray.length > 1) {
+    let box = event.srcElement;
+    let boxNum = box.id;
+    console.log(boxNum);
+    let image = document.createElement("img");
+    image.className = "square";
+    if (boardArray[boxNum] == 0) {
+      boardArray[boxNum] = turn;
+      if (turn === 1) {
+        image.src = ximg;
+        //box.className = "square x";
+        turn = 2;
+      } else {
+        image.src = oimg;
+        turn = 1;
+      }
+      box.append(image);
+      console.log(box);
+      console.log(boardArray);
     }
-    box.append(image);
-    console.log(box);
-    console.log(boardArray);
-  }
-  let win = checkWin();
-  console.log("win: " + win);
-  if (win != 0) {
-    announceWin(win);
+    let win = checkWin();
+    console.log("win: " + win);
+    if (win != 0) {
+      announceWin(win);
+      boardArray = [win];
+    }
   }
 }
 
