@@ -44,31 +44,32 @@ function boxCheck(event) {
 
 function checkWin() {
   for (let i = 0; i < 3; i++) {
+    //check row win
     if (
       boardArray[i * 3] == boardArray[i * 3 + 1] &&
       boardArray[i * 3 + 1] == boardArray[i * 3 + 2]
     ) {
-      //check row win
       if (boardArray[i * 3] != 0) {
         return boardArray[i * 3];
       }
-    } else if (
+    } //column win 
+    else if (
       boardArray[i] == boardArray[i + 3] &&
       boardArray[i + 3] == boardArray[i + 6]
     ) {
-      //column win
+
       if (boardArray[i] != 0) {
         return boardArray[i];
       }
     }
-    //check diagonal wins
-    if (
-      (boardArray[0] == boardArray[4] && boardArray[4] == boardArray[8]) ||
-      (boardArray[2] == boardArray[4] && boardArray[4] == boardArray[6])
-    ) {
-      if (boardArray[4] != 0) {
-        return boardArray[4];
-      }
+  }
+  //check diagonal wins
+  if (
+    (boardArray[0] == boardArray[4] && boardArray[4] == boardArray[8]) ||
+    (boardArray[2] == boardArray[4] && boardArray[4] == boardArray[6])
+  ) {
+    if (boardArray[4] != 0) {
+      return boardArray[4];
     }
   }
   if (boardArray.includes(0)) {

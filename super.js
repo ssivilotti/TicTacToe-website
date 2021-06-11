@@ -170,28 +170,29 @@ function checkWin(boardArray) {
         }
       }
     }
-    //check diagonal wins
-    if (
-      (boardArray[0] == boardArray[4] && boardArray[4] == boardArray[8]) ||
-      (boardArray[2] == boardArray[4] && boardArray[4] == boardArray[6]) ||
-      (boardArray[0] == -1 && boardArray[4] == boardArray[8])
-      || (boardArray[8] == -1 && boardArray[0] == boardArray[4])
-      || (boardArray[2] == -1 && boardArray[4] == boardArray[6])
-      || (boardArray[6] == -1 && boardArray[2] == boardArray[4])
-    ) {
-      if (boardArray[4] != 0) {
-        return boardArray[4];
-      }
-    }
-    //check diagonal win with tie
-    if (boardArray[4] == -1 &&
-      boardArray[0] == boardArray[8]) {
-      return boardArray[0];
-    }
-    else if (boardArray[4] == -1 && boardArray[2] == boardArray[6]) {
-      return boardArray[2];
+  }
+  //check diagonal wins
+  if (
+    (boardArray[0] == boardArray[4] && boardArray[4] == boardArray[8]) ||
+    (boardArray[2] == boardArray[4] && boardArray[4] == boardArray[6]) ||
+    (boardArray[0] == -1 && boardArray[4] == boardArray[8])
+    || (boardArray[8] == -1 && boardArray[0] == boardArray[4])
+    || (boardArray[2] == -1 && boardArray[4] == boardArray[6])
+    || (boardArray[6] == -1 && boardArray[2] == boardArray[4])
+  ) {
+    if (boardArray[4] != 0) {
+      return boardArray[4];
     }
   }
+  //check diagonal win with tie
+  if (boardArray[4] == -1 &&
+    boardArray[0] == boardArray[8]) {
+    return boardArray[0];
+  }
+  else if (boardArray[4] == -1 && boardArray[2] == boardArray[6]) {
+    return boardArray[2];
+  }
+
   if (boardArray.includes(0)) {
     return 0;
   }
@@ -214,11 +215,12 @@ function announceWin(win) {
 //sets the appropriate boards playable and neutral
 function setPlayable(lastmove) {
   setAllPlayableClass("neutral");
-  console.log(lastmove.substring(2));
-  let playableBoard = document.getElementById(lastmove.substring(2));
+  const smallBoxLocation = lastmove.substring(2);
+  console.log(smallBoxLocation);
+  let playableBoard = document.getElementById(smallBoxLocation);
   console.log(playableBoard);
   playableBoard.className = "superboard playable";
-  if (bigBoard[lastmove.substring(2)] != 0) {
+  if (bigBoard[smallBoxLocation] != 0) {
     setAllPlayableClass("playable");
   }
 }
