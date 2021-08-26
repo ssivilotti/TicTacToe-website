@@ -1,17 +1,16 @@
-let ximg = "X.png";
-let oimg = "O.png";
+const ximg = "images/X.png";
+const oimg = "images/O.png";
 let playbutton = document.getElementById("play");
 playbutton.addEventListener("click", resetBoard);
-let board = document.getElementById("board");
 let turn = 1;
 let boardArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-//add event listener to each button
-for (let i = 0; i < 9; i++) {
+// add event listener to each button
+for (let i = 0; i < 9; i += 1) {
   let box = document.getElementById(i);
   box.addEventListener("click", (event) => boxCheck(event));
 }
 
-//event listener for button
+// event listener for button
 function boxCheck(event) {
   if (boardArray.length > 1) {
     let box = event.srcElement;
@@ -19,11 +18,11 @@ function boxCheck(event) {
     console.log(boxNum);
     let image = document.createElement("img");
     image.className = "square";
-    if (boardArray[boxNum] == 0) {
+    if (boardArray[boxNum] === 0) {
       boardArray[boxNum] = turn;
       if (turn === 1) {
         image.src = ximg;
-        //box.className = "square x";
+        // box.className = "square x";
         turn = 2;
       } else {
         image.src = oimg;
@@ -35,7 +34,7 @@ function boxCheck(event) {
     }
     let win = checkWin();
     console.log("win: " + win);
-    if (win != 0) {
+    if (win !== 0) {
       announceWin(win);
       boardArray = [win];
     }
@@ -43,32 +42,31 @@ function boxCheck(event) {
 }
 
 function checkWin() {
-  for (let i = 0; i < 3; i++) {
-    //check row win
+  for (let i = 0; i < 3; i += 1) {
+    // check row win
     if (
-      boardArray[i * 3] == boardArray[i * 3 + 1] &&
-      boardArray[i * 3 + 1] == boardArray[i * 3 + 2]
+      boardArray[i * 3] === boardArray[i * 3 + 1] &&
+      boardArray[i * 3 + 1] === boardArray[i * 3 + 2]
     ) {
-      if (boardArray[i * 3] != 0) {
+      if (boardArray[i * 3] !== 0) {
         return boardArray[i * 3];
       }
-    } //column win 
+    } // column win
     else if (
-      boardArray[i] == boardArray[i + 3] &&
-      boardArray[i + 3] == boardArray[i + 6]
+      boardArray[i] === boardArray[i + 3] &&
+      boardArray[i + 3] === boardArray[i + 6]
     ) {
-
-      if (boardArray[i] != 0) {
+      if (boardArray[i] !== 0) {
         return boardArray[i];
       }
     }
   }
-  //check diagonal wins
+  // check diagonal wins
   if (
-    (boardArray[0] == boardArray[4] && boardArray[4] == boardArray[8]) ||
-    (boardArray[2] == boardArray[4] && boardArray[4] == boardArray[6])
+    (boardArray[0] === boardArray[4] && boardArray[4] === boardArray[8]) ||
+    (boardArray[2] === boardArray[4] && boardArray[4] === boardArray[6])
   ) {
-    if (boardArray[4] != 0) {
+    if (boardArray[4] !== 0) {
       return boardArray[4];
     }
   }
@@ -79,10 +77,10 @@ function checkWin() {
 }
 
 function announceWin(win) {
-  //adds an announcement of who won below the board
+  // adds an announcement of who won below the board
   let header = document.createElement("h1");
   let winner = "";
-  if (win == -1) {
+  if (win === -1) {
     winner = "Tie";
   } else {
     winner = "Player " + win + " wins!";
@@ -92,12 +90,12 @@ function announceWin(win) {
 }
 
 function resetBoard() {
-  //clears images from buttons
-  for (let i = 0; i < 9; i++) {
-    let button = document.getElementById(i);
+  // clears images from buttons
+  for (let i = 0; i < 9; i += 1) {
+    const button = document.getElementById(i);
     button.innerHTML = "";
   }
-  //resets play conditions
+  // resets play conditions
   turn = 1;
   boardArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   document.getElementById("win").innerHTML = "";

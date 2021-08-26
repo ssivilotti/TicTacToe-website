@@ -1,47 +1,47 @@
-//js for super tic tac toe
+// js for super tic tac toe
 
-//images for players
-//make this changeable?
-let ximg = "X.png";
-let oimg = "O.png";
+// images for players
+// make this changeable?
+const ximg = "images/X.png";
+const oimg = "images/O.png";
 
-let boardElement = document.getElementById("board");
-//add an event listener to the play link
+const boardElement = document.getElementById("board");
+// add an event listener to the play link
 document.getElementById("play").addEventListener("click", createBoard);
-//stores the wins on the large board
+// stores the wins on the large board
 let bigBoard;
-//2D array of boxes in every small board, counts rows first then columns
+// 2D array of boxes in every small board, counts rows first then columns
 let board;
-//says who goes first
+// says who goes first
 let turn = 1;
 createBoard();
 
-//set board, initialize
+// set board, initialize
 function createBoard() {
   boardElement.innerHTML = "";
-  //row of smaller boards (put in a container)
-  for (let i = 0; i < 3; i++) {
+  // row of smaller boards (put in a container)
+  for (let i = 0; i < 3; i += 1) {
     let largerow = document.createElement("div");
     largerow.id = "boardrow" + i;
-    //largerow.className = "row";
-    //smaller boards on the row
-    for (let j = 0; j < 3; j++) {
+    // largerow.className = "row";
+    // smaller boards on the row
+    for (let j = 0; j < 3; j += 1) {
       let smallboard = document.createElement("div");
-      //range of ids: [0,8]
+      // range of ids: [0,8]
       smallboard.id = 3 * i + j;
       smallboard.className = "superboard neutral";
-      //rows on the smaller boards
+      // rows on the smaller boards
       for (let k = 0; k < 3; k++) {
         let smallrow = document.createElement("div");
-        //smallrow.id = "smallboard.id:row[0,2]"; ex. 0:row0
+        // smallrow.id = "smallboard.id:row[0,2]"; ex. 0:row0
         smallrow.id = 3 * i + j + ":row" + k;
-        //buttons in the smaller boards
+        // buttons in the smaller boards
         for (let l = 0; l < 3; l++) {
           let button = document.createElement("button");
-          //smallboard id [0,8] : box location on small board [0,8]
+          // smallboard id [0,8] : box location on small board [0,8]
           button.id = 3 * i + j + ":" + (3 * k + l);
           button.className = "supersquare";
-          //add event listener to the button
+          // add event listener to the button
           button.addEventListener("click", (event) => boxCheck(event));
           smallrow.append(button);
         }
@@ -51,7 +51,7 @@ function createBoard() {
     }
     boardElement.append(largerow);
   }
-  //set arrays to zeros (availible)
+  // set arrays to zeros (availible)
   bigBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   board = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -65,27 +65,30 @@ function createBoard() {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ];
   turn = 1;
-  //set all playable
+  // set all playable
   setAllPlayableClass("playable");
 }
 
-//event listener for button
+// event listener for button
 function boxCheck(event) {
   let box = event.srcElement;
-  //smallboard id [0,8]:box location on small board [0,8]
+  // smallboard id [0,8]:box location on small board [0,8]
   let boxlocation = box.id;
   console.log(boxlocation);
-  //adds image to box
+  // adds image to box
   let image = document.createElement("img");
   image.className = "supersquare";
-  if (document.getElementById(boxlocation.substring(0, 1)).className == "superboard playable") {
-    //checks that box hasn't already been played
+  if (
+    document.getElementById(boxlocation.substring(0, 1)).className ==
+    "superboard playable"
+  ) {
+    // checks that box hasn't already been played
     if (board[boxlocation.substring(0, 1)][boxlocation.substring(2)] == 0) {
-      //updates board array controller
+      // updates board array controller
       board[boxlocation.substring(0, 1)][boxlocation.substring(2)] = turn;
-      if (turn == 1) {
+      if (turn === 1) {
         image.src = ximg;
-        //box.className = "square x";
+        // box.className = "square x";
         turn = 2;
       } else {
         image.src = oimg;
@@ -98,71 +101,70 @@ function boxCheck(event) {
       let win = checkWin(board[boxlocation.substring(0, 1)]);
       console.log("win: " + win);
       let finalwin = 0;
-      //check if someone won
-      if (win != 0) {
-        //main board that was just won
+      // check if someone won
+      if (win !== 0) {
+        // main board that was just won
         let bigBox = document.getElementById(boxlocation.substring(0, 1));
         bigBox.innerHTML = "";
-        //set array of large boards
+        // set array of large boards
         bigBoard[boxlocation.substring(0, 1)] = win;
         console.log(bigBoard);
-        //set img for win
+        // set img for win
         let largeImg = document.createElement("img");
-        if (win == 1) {
+        if (win === 1) {
           largeImg.src = ximg;
-        } else if (win == 2) {
+        } else if (win === 2) {
           largeImg.src = oimg;
-        } else if (win == -1) {
-          largeImg.src = "T.png";
+        } else if (win === -1) {
+          largeImg.src = "images/T.png";
         }
         bigBox.append(largeImg);
-        //check if whole game was won
+        // check if whole game was won
         finalwin = checkWin(bigBoard);
-
       }
-      if (finalwin != 0) {
+      if (finalwin !== 0) {
         setAllPlayableClass("neutral");
         announceWin(finalwin);
       } else {
         setPlayable(boxlocation);
       }
-
     }
   } else {
-    //changes the board just played in to red
-    //can add a rule pop up here?
-    document.getElementById(boxlocation.substring(0, 1)).className = "superboard unplayable";
+    // changes the board just played in to red
+    // can add a rule pop up here?
+    document.getElementById(boxlocation.substring(0, 1)).className =
+      "superboard unplayable";
   }
 }
 
-//checks the array of size: 9 for win
-//tie in a small board is accounted for, but need to win atleast 2 smallboards for the win
+// checks the array of size: 9 for win
+// tie in a small board is accounted for, but need to win atleast 2 smallboards for the win
 function checkWin(boardArray) {
   for (let i = 0; i < 3; i++) {
-    //check row win
+    // check row win
     if (
-      (boardArray[i * 3] == boardArray[i * 3 + 1] &&
-        (boardArray[i * 3 + 1] == boardArray[i * 3 + 2] ||
-          boardArray[i * 3 + 2] == -1)) ||
-      (boardArray[i * 3] == boardArray[i * 3 + 2] &&
-        boardArray[i * 3 + 1] == -1) ||
-      (boardArray[i * 3 + 1] == boardArray[i * 3 + 2] &&
-        boardArray[i * 3 + 1] == -1)
+      (boardArray[i * 3] === boardArray[i * 3 + 1] &&
+        (boardArray[i * 3 + 1] === boardArray[i * 3 + 2] ||
+          boardArray[i * 3 + 2] === -1)) ||
+      (boardArray[i * 3] === boardArray[i * 3 + 2] &&
+        boardArray[i * 3 + 1] === -1) ||
+      (boardArray[i * 3 + 1] === boardArray[i * 3 + 2] &&
+        boardArray[i * 3 + 1] === -1)
     ) {
-      for (let j = 0; j < 3; j++) {
-        if (boardArray[i * 3 + j] != 0 && boardArray[i * 3 + j] != -1) {
+      for (let j = 0; j < 3; j += 1) {
+        if (boardArray[i * 3 + j] !== 0 && boardArray[i * 3 + j] !== -1) {
           return boardArray[i * 3 + j];
         }
         // } else if (j == 2 && boardArray[i * 3 + j] == -1) {
         //   winner = -1;
         // }
       }
-      //column win
+      // column win
     } else if (
       (boardArray[i] == boardArray[i + 3] &&
-        (boardArray[i + 3] == boardArray[i + 6] || boardArray[i + 6] == -1))
-      || (boardArray[i] == boardArray[i + 6] && boardArray[i + 3] == -1)
-      || (boardArray[i + 3] == boardArray[i + 6] && boardArray[i] == -1)
+        (boardArray[i + 3] == boardArray[i + 6] || boardArray[i + 6] == -1)) ||
+      (boardArray[i] == boardArray[i + 6] && boardArray[i + 3] == -1) ||
+      (boardArray[i + 3] == boardArray[i + 6] && boardArray[i] == -1)
     ) {
       for (let j = 0; j < 3; j++) {
         if (boardArray[i + j * 3] != 0 && boardArray[i + j * 3] != -1) {
@@ -171,25 +173,23 @@ function checkWin(boardArray) {
       }
     }
   }
-  //check diagonal wins
+  // check diagonal wins
   if (
     (boardArray[0] == boardArray[4] && boardArray[4] == boardArray[8]) ||
     (boardArray[2] == boardArray[4] && boardArray[4] == boardArray[6]) ||
-    (boardArray[0] == -1 && boardArray[4] == boardArray[8])
-    || (boardArray[8] == -1 && boardArray[0] == boardArray[4])
-    || (boardArray[2] == -1 && boardArray[4] == boardArray[6])
-    || (boardArray[6] == -1 && boardArray[2] == boardArray[4])
+    (boardArray[0] == -1 && boardArray[4] == boardArray[8]) ||
+    (boardArray[8] == -1 && boardArray[0] == boardArray[4]) ||
+    (boardArray[2] == -1 && boardArray[4] == boardArray[6]) ||
+    (boardArray[6] == -1 && boardArray[2] == boardArray[4])
   ) {
     if (boardArray[4] != 0) {
       return boardArray[4];
     }
   }
-  //check diagonal win with tie
-  if (boardArray[4] == -1 &&
-    boardArray[0] == boardArray[8]) {
+  // check diagonal win with tie
+  if (boardArray[4] == -1 && boardArray[0] == boardArray[8]) {
     return boardArray[0];
-  }
-  else if (boardArray[4] == -1 && boardArray[2] == boardArray[6]) {
+  } else if (boardArray[4] == -1 && boardArray[2] == boardArray[6]) {
     return boardArray[2];
   }
 
@@ -200,7 +200,7 @@ function checkWin(boardArray) {
 }
 
 function announceWin(win) {
-  //adds an announcement of who won below the board
+  // adds an announcement of who won below the board
   let header = document.createElement("h1");
   let winner = "";
   if (win == -1) {
@@ -212,7 +212,7 @@ function announceWin(win) {
   document.getElementById("win").append(header);
 }
 
-//sets the appropriate boards playable and neutral
+// sets the appropriate boards playable and neutral
 function setPlayable(lastmove) {
   setAllPlayableClass("neutral");
   const smallBoxLocation = lastmove.substring(2);
@@ -225,13 +225,13 @@ function setPlayable(lastmove) {
   }
 }
 
-//classString options are: neutral, playable, unplayable
+// classString options are: neutral, playable, unplayable
 function setAllPlayableClass(classString) {
   for (let i = 0; i < 9; i++) {
     let playableBoard = document.getElementById(i);
-    if (bigBoard[i] != 0)
+    if (bigBoard[i] != 0) {
       playableBoard.className = "superboard neutral";
-    else {
+    } else {
       playableBoard.className = "superboard " + classString;
       console.log(playableBoard);
     }
